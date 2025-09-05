@@ -121,12 +121,10 @@
         <a href="register.html" class="link">নতুন অ্যাকাউন্ট নেই? রেজিস্টার করুন</a>
     </div>
 
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        // Firebase configuration from the user's prompt
         const firebaseConfig = {
           apiKey: "AIzaSyCHV1NpohSUeK8bSH46iVWG-6kVxRsyEYY",
           authDomain: "exsurvey-b53a1.firebaseapp.com",
@@ -138,23 +136,19 @@
           measurementId: "G-7NPWGLC44N"
         };
         
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // UI Elements
         const loginForm = document.getElementById('login-form');
         const emailUsernameInput = document.getElementById('email-username');
         const passwordInput = document.getElementById('password');
         const statusMessage = document.getElementById('status-message');
 
-        // Function to display messages
         function showStatusMessage(message, type) {
             statusMessage.textContent = message;
             statusMessage.className = `status-message ${type}`;
         }
 
-        // Handle login form submission
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const emailOrUsername = emailUsernameInput.value.trim();
@@ -166,14 +160,9 @@
             }
 
             try {
-                // Firebase-এর signInWithEmailAndPassword() শুধুমাত্র ইমেল দিয়েই কাজ করে।
-                // ইউজারনেম দিয়ে লগইন করতে হলে আপনাকে একটি সার্ভার-সাইড (যেমন Firebase Functions)
-                // সমাধান ব্যবহার করে ইউজারনেম থেকে ইমেল খুঁজে বের করতে হবে,
-                // তারপর কাস্টম টোকেন ব্যবহার করে লগইন করতে হবে।
                 await signInWithEmailAndPassword(auth, emailOrUsername, password);
                 showStatusMessage('সফলভাবে লগইন করা হয়েছে!', 'success');
-                // লগইন সফল হলে অন্য কোনো পেজে রিডাইরেক্ট করতে পারেন, যেমন:
-                // window.location.href = "dashboard.html";
+                window.location.href = "dashboard.html";
 
             } catch (error) {
                 console.error("Login failed:", error.code, error.message);
@@ -186,7 +175,6 @@
                 showStatusMessage(errorMessage, 'error');
             }
         });
-
     </script>
 </body>
 </html>
