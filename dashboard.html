@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ড্যাশবোর্ড</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        .user-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .user-info p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+        .user-info p strong {
+            color: #34495e;
+        }
+        .logout-btn {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+        .loading-text {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>ড্যাশবোর্ড</h2>
+        <p class="loading-text">ডেটা লোড হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।</p>
+        
+        <div class="user-info" id="dashboard-content" style="display: none;">
+            <p><strong>ইউজারনেম:</strong> <span id="username"></span></p>
+            <p><strong>ব্যালেন্স:</strong> <span id="balance"></span></p>
+        </div>
+
+        <button class="logout-btn" id="logout-btn">লগআউট</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // Firebase configuration (আপনার লগইন পেজ থেকে)
+        const firebaseConfig = {
+          apiKey: "AIzaSyCHV1NpohSUeK8bSH46iVWG-6kVxRsyEYY",
+          authDomain: "exsurvey-b53a1.firebaseapp.com",
+          databaseURL: "https://exsurvey-b53a1-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "exsurvey-b53a1",
+          storageBucket: "exsurvey-b53a1.firebasestorage.app",
+          messagingSenderId: "878285842202",
+          appId: "1:878285842202:web:b291c816a627b1fc762ea3",
+          measurementId: "G-7NPWGLC44N"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // UI Elements
+        const dashboardContent = document.getElementById('dashboard-content');
+        const loadingText = document.querySelector('.loading-text');
+        const usernameEl = document.getElementById('username');
+        const balanceEl = document.getElementById('balance');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // Check user authentication state
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, fetch user data
+                const userUid = user.uid;
+                const dbRef = ref(db);
+                get(child(dbRef, `users/${userUid}`)).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const userData = snapshot.val();
+                        usernameEl.textContent = userData.username;
+                        // For a simple example, we'll use a placeholder balance.
+                        // In a real application, you would fetch this from your database.
+                        balanceEl.textContent = "৳ 1000"; 
+                        
+                        loadingText.style.display = 'none';
+                        dashboardContent.style.display = 'block';
+                    } else {
+                        console.log("No data available for this user in Realtime Database.");
+                        loadingText.textContent = 'আপনার ডেটা খুঁজে পাওয়া যায়নি।';
+                    }
+                }).catch((error) => {
+                    console.error("Error fetching data:", error);
+                    loadingText.textContent = 'ডেটা লোড করতে সমস্যা হয়েছে।';
+                });
+
+            } else {
+                // User is signed out, redirect to login page
+                console.log("User is not logged in. Redirecting to login page...");
+                window.location.href = "login.html";
+            }
+        });
+
+        // Handle logout
+        logoutBtn.addEventListener('click', () => {
+            signOut(auth).then(() => {
+                // Sign-out successful. The onAuthStateChanged listener will handle the redirect.
+                console.log("User signed out successfully.");
+            }).catch((error) => {
+                console.error("Logout failed:", error);
+                alert("লগআউট করতে সমস্যা হয়েছে।");
+            });
+        });
+    </script>
+</body>
+</html>
