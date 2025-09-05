@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রেজিস্টার</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            color: #7f8c8d;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #34495e;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .status-message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            text-align: left;
+        }
+        .status-message.success {
+            background-color: #e8f5e9;
+            color: #27ae60;
+            opacity: 1;
+        }
+        .status-message.error {
+            background-color: #ffebee;
+            color: #c0392b;
+            opacity: 1;
+        }
+        .link {
+            display: block;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>রেজিস্টার করুন</h2>
+        <p>একটি নতুন অ্যাকাউন্ট তৈরি করুন।</p>
+        
+        <form id="register-form">
+            <div class="form-group">
+                <label for="username">ইউজারনেম</label>
+                <input type="text" id="username" placeholder="আপনার ইউজারনেম" required>
+            </div>
+            <div class="form-group">
+                <label for="fullname">পুরো নাম</label>
+                <input type="text" id="fullname" placeholder="আপনার পুরো নাম" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">ফোন নম্বর</label>
+                <input type="tel" id="phone" placeholder="আপনার ফোন নম্বর" required>
+            </div>
+            <div class="form-group">
+                <label for="email">ইমেল</label>
+                <input type="email" id="email" placeholder="আপনার ইমেল" required>
+            </div>
+            <div class="form-group">
+                <label for="password">পাসওয়ার্ড</label>
+                <input type="password" id="password" placeholder="একটি শক্তিশালী পাসওয়ার্ড দিন" required>
+            </div>
+            <button type="submit">রেজিস্টার</button>
+        </form>
+
+        <div id="status-message" class="status-message"></div>
+
+        <a href="login.html" class="link">ইতিমধ্যেই একটি অ্যাকাউন্ট আছে? লগইন করুন</a>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // Firebase configuration (আপনার লগইন পেজ থেকে)
+        const firebaseConfig = {
+          apiKey: "AIzaSyCHV1NpohSUeK8bSH46iVWG-6kVxRsyEYY",
+          authDomain: "exsurvey-b53a1.firebaseapp.com",
+          databaseURL: "https://exsurvey-b53a1-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "exsurvey-b53a1",
+          storageBucket: "exsurvey-b53a1.firebasestorage.app",
+          messagingSenderId: "878285842202",
+          appId: "1:878285842202:web:b291c816a627b1fc762ea3",
+          measurementId: "G-7NPWGLC44N"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app); // Initialize Realtime Database
+
+        // UI Elements
+        const registerForm = document.getElementById('register-form');
+        const usernameInput = document.getElementById('username');
+        const fullnameInput = document.getElementById('fullname');
+        const phoneInput = document.getElementById('phone');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const statusMessage = document.getElementById('status-message');
+
+        // Function to display messages
+        function showStatusMessage(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+        }
+
+        // Handle registration form submission
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = usernameInput.value.trim();
+            const fullname = fullnameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !fullname || !phone || !email || !password) {
+                showStatusMessage('সবগুলো ফিল্ড পূরণ করা প্রয়োজন।', 'error');
+                return;
+            }
+
+            try {
+                // Step 1: Create a user with email and password in Firebase Authentication
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                showStatusMessage('অ্যাকাউন্ট তৈরি হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।', 'success');
+
+                // Step 2: Save the additional user data to Realtime Database
+                await set(ref(db, 'users/' + user.uid), {
+                    username: username,
+                    fullname: fullname,
+                    phone: phone,
+                    email: email, // Optionally save email here as well
+                    uid: user.uid // Save the user's unique ID for future reference
+                });
+
+                console.log("User registered and data saved to Realtime Database:", user);
+                showStatusMessage('সফলভাবে রেজিস্টার করা হয়েছে! আপনাকে লগইন পেজে রিডাইরেক্ট করা হচ্ছে।', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000); // 2 seconds delay before redirecting
+
+            } catch (error) {
+                console.error("Registration failed:", error.code, error.message);
+                let errorMessage = 'রেজিস্ট্রেশন ব্যর্থ হয়েছে।';
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'এই ইমেলটি ইতিমধ্যেই ব্যবহার করা হয়েছে।';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'অনুগ্রহ করে একটি সঠিক ইমেল অ্যাড্রেস দিন।';
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = 'পাসওয়ার্ডটি খুবই দুর্বল। একটি শক্তিশালী পাসওয়ার্ড দিন।';
+                }
+                showStatusMessage(errorMessage, 'error');
+            }
+        });
+
+    </script>
+</body>
+</html>
