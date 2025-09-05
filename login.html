@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লগইন</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            color: #7f8c8d;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #34495e;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .status-message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            text-align: left;
+        }
+        .status-message.success {
+            background-color: #e8f5e9;
+            color: #27ae60;
+            opacity: 1;
+        }
+        .status-message.error {
+            background-color: #ffebee;
+            color: #c0392b;
+            opacity: 1;
+        }
+        .link {
+            display: block;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>লগইন করুন</h2>
+        <p>আপনার অ্যাকাউন্ট অ্যাক্সেস করতে প্রবেশ করুন।</p>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email-username">ইমেল / ইউজারনেম</label>
+                <input type="text" id="email-username" placeholder="আপনার ইমেল অথবা ইউজারনেম" required>
+            </div>
+            <div class="form-group">
+                <label for="password">পাসওয়ার্ড</label>
+                <input type="password" id="password" placeholder="আপনার পাসওয়ার্ড" required>
+            </div>
+            <button type="submit">লগইন</button>
+        </form>
+
+        <div id="status-message" class="status-message"></div>
+
+        <a href="register.html" class="link">নতুন অ্যাকাউন্ট নেই? রেজিস্টার করুন</a>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // Firebase configuration from the user's prompt
+        const firebaseConfig = {
+          apiKey: "AIzaSyCHV1NpohSUeK8bSH46iVWG-6kVxRsyEYY",
+          authDomain: "exsurvey-b53a1.firebaseapp.com",
+          databaseURL: "https://exsurvey-b53a1-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "exsurvey-b53a1",
+          storageBucket: "exsurvey-b53a1.firebasestorage.app",
+          messagingSenderId: "878285842202",
+          appId: "1:878285842202:web:b291c816a627b1fc762ea3",
+          measurementId: "G-7NPWGLC44N"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // UI Elements
+        const loginForm = document.getElementById('login-form');
+        const emailUsernameInput = document.getElementById('email-username');
+        const passwordInput = document.getElementById('password');
+        const statusMessage = document.getElementById('status-message');
+
+        // Function to display messages
+        function showStatusMessage(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+        }
+
+        // Handle login form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const emailOrUsername = emailUsernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!emailOrUsername || !password) {
+                showStatusMessage('ইমেল এবং পাসওয়ার্ড উভয়ই প্রয়োজন।', 'error');
+                return;
+            }
+
+            try {
+                // Firebase-এর signInWithEmailAndPassword() শুধুমাত্র ইমেল দিয়েই কাজ করে।
+                // ইউজারনেম দিয়ে লগইন করতে হলে আপনাকে একটি সার্ভার-সাইড (যেমন Firebase Functions)
+                // সমাধান ব্যবহার করে ইউজারনেম থেকে ইমেল খুঁজে বের করতে হবে,
+                // তারপর কাস্টম টোকেন ব্যবহার করে লগইন করতে হবে।
+                await signInWithEmailAndPassword(auth, emailOrUsername, password);
+                showStatusMessage('সফলভাবে লগইন করা হয়েছে!', 'success');
+                // লগইন সফল হলে অন্য কোনো পেজে রিডাইরেক্ট করতে পারেন, যেমন:
+                // window.location.href = "dashboard.html";
+
+            } catch (error) {
+                console.error("Login failed:", error.code, error.message);
+                let errorMessage = 'লগইন ব্যর্থ হয়েছে।';
+                if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'অনুগ্রহ করে একটি সঠিক ইমেল অ্যাড্রেস দিন।';
+                } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    errorMessage = 'ভুল ইমেল বা পাসওয়ার্ড।';
+                }
+                showStatusMessage(errorMessage, 'error');
+            }
+        });
+
+    </script>
+</body>
+</html>
