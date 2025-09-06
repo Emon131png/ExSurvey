@@ -1,67 +1,337 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>হোমপেজ</title>
+    <title>ExSurvey - Earn Money Online</title>
     <style>
+        /* CSS for the page layout and design */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f0f2f5;
             color: #333;
+            line-height: 1.6;
         }
-        .header {
-            background-color: #333;
-            color: white;
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 15px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 28px;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+            border: 1px solid #28a745;
+        }
+
+        .btn-green {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-green:hover {
+            background-color: #218838;
+        }
+
+        .btn-home {
+            background-color: #fff;
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+        
+        .btn-home:hover {
+            background-color: #e6f7e8;
+        }
+
+        .hero {
+            padding: 80px 20px;
             text-align: center;
         }
-        .header h1 {
-            margin: 0;
+
+        .hero h1 {
+            font-size: 40px;
+            color: #28a745;
+            margin-bottom: 20px;
         }
-        .nav-bar {
+        
+        .card-section {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .card-section h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #28a745;
+        }
+
+        .card-container {
             display: flex;
             justify-content: center;
-            background-color: #444;
-            padding: 10px 0;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-        .nav-bar a {
-            color: white;
-            padding: 14px 20px;
+
+        .card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .card .icon {
+            font-size: 40px;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .card .label {
+            color: #555;
+        }
+
+        .faq-section {
+            padding: 50px 0;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #28a745;
+        }
+
+        .faq-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .faq-item h3 {
+            color: #28a745;
+            margin-top: 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #222;
+            color: #fff;
+        }
+
+        .footer-links a {
+            color: #fff;
             text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+
+        .social-icons a {
+            color: #fff;
+            font-size: 24px;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        
+        /* Floating WhatsApp Icon CSS */
+        .whatsapp-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .whatsapp-icon a {
+            display: block;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #25d366;
+            color: #fff;
             text-align: center;
-            transition: background-color 0.3s;
+            line-height: 60px;
+            font-size: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
         }
-        .nav-bar a:hover {
-            background-color: #575757;
+
+        .whatsapp-icon a:hover {
+            transform: scale(1.1);
         }
-        .content {
-            padding: 40px 20px;
-            text-align: center;
-        }
-        .content h2 {
-            color: #444;
-        }
+
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>আমার ওয়েবসাইট</h1>
+    <header class="navbar">
+        <div class="logo">ExSurvey</div>
+        <div class="nav-controls">
+            <a href="index.html" class="btn btn-home">Home</a>
+            <a href="register.html" class="btn btn-green">Sign Up</a>
+            <a href="login.html" class="btn btn-green">Login</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Start your journey to financial freedom with flexible ExSurvey to help you earn more, faster.</h1>
+        </section>
+
+        <section class="card-section">
+            <div class="card-container">
+                <div class="card">
+                    <div class="icon">👥</div>
+                    <div class="number" id="total-users">Loading...</div>
+                    <div class="label">Total Users</div>
+                </div>
+                <div class="card">
+                    <div class="icon">💰</div>
+                    <div class="number" id="total-withdrawals">Loading...</div>
+                    <div class="label">Total Withdrawals</div>
+                </div>
+                <div class="card">
+                    <div class="icon">📋</div>
+                    <div class="number" id="total-tasks">Loading...</div>
+                    <div class="label">Total Tasks</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>How do I get started?</h3>
+                <p>Sign up for an account, create your profile, and dive right in—whether you're looking to post gigs or find the perfect freelancer. In just a few easy steps, you can begin earning or getting work done efficiently. Join a community of talented professionals and clients ready to collaborate and achieve success together.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How are payment processed?</h3>
+                <p>Payments are securely processed through our platform to ensure a smooth and reliable experience for both freelancers and clients. Once a gig is successfully completed, the payment is seamlessly transferred to the freelancer. Clients can conveniently pay using credit cards, cryptocurrency, or other supported payment methods, providing flexibility and peace of mind.</p>
+            </div>
+            <div class="faq-item">
+                <h3>What happens if I have an issue?</h3>
+                <p>If you encounter any issues, our dedicated support team is always ready to assist you. Whether you need help resolving disputes, have questions about the platform, or require guidance on navigating your projects, we're here to ensure everything runs smoothly. Our goal is to provide a hassle-free experience for both clients and freelancers.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Email: <a href="mailto:exsurveyteam@gmail.com" style="color: #fff; text-decoration: none;">support@exsurvey.com</a></p>
+        <p class="footer-links">
+            <a href="privacy.html">Privacy Policy</a> |
+            <a href="terms.html">Terms of Service</a> |
+            <a href="reffer.html">Our Referral Program</a>
+        </p>
+        <div class="social-icons">
+            <a href="https://www.youtube.com/@ExSurvey">YouTube</a>
+            <a href="https://chat.whatsapp.com/KDm94eBzNHMHwJY04raNqA?mode=ems_copy_c">WhatsApp</a>
+            <a href="https://www.facebook.com/profile.php?id=61580025557448">Facebook</a>
+        </div>
+        <p>&copy; 2025 ExSurvey. All Rights Reserved.</p>
+    </footer>
+
+    <div class="whatsapp-icon">
+        <a href="https://wa.me/+8801792849799" target="_blank" title="Chat on WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M380.9 97.1C339.2 59.2 284.2 36.3 224 36.3 125.7 36.3 45.1 116.9 45.1 215.2c0 33.6 9.2 65.5 26.5 93.9L46.4 464c-1.3 4.4-1.2 9.1.3 13.3 1.5 4.2 4.1 7.8 7.6 10.6 3.5 2.8 7.7 4.2 12.2 4.2 4.6 0 9.1-1.5 12.6-4.4l112.5-73.4c26.7 15.6 57.3 23.4 88.6 23.4 98.3 0 178.9-80.6 178.9-178.9.1-49.8-19.8-97.4-56.1-131.7zM224 416.3c-26.6 0-52.7-7.9-75.6-23.4l-5.6-3.3-60.8 39.7 16.4-65.7-3.6-5.8c-18.4-30.8-28.1-66.2-28.1-103 0-77.1 62.7-139.7 139.7-139.7s139.7 62.7 139.7 139.7c0 77.1-62.7 139.7-139.7 139.7z"/></svg>
+        </a>
     </div>
 
-    <div class="nav-bar">
-        <a href="index.html">হোম</a>
-        <a href="login.html">লগইন</a>
-        <a href="register.html">রেজিস্টার</a>
-    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+        // Your Firebase project configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHV1NpohSUeK8bSH46iVWG-6kVxRsyEYY",
+            authDomain: "exsurvey-b53a1.firebaseapp.com",
+            databaseURL: "https://exsurvey-b53a1-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "exsurvey-b53a1",
+            storageBucket: "exsurvey-b53a1.firebasestorage.app",
+            messagingSenderId: "878285842202",
+            appId: "1:878285842202:web:b291c816a627b1fc762ea3",
+            measurementId: "G-7NPWGLC44N"
+        };
 
-    <div class="content">
-        <h2>আমাদের ওয়েবসাইটে স্বাগতম!</h2>
-        <p>এটি আপনার ওয়েবসাইটের হোমপেজ। নেভিগেশন বারের মাধ্যমে আপনি লগইন অথবা রেজিস্টার পেজে যেতে পারেন।</p>
-    </div>
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
 
+        // Get a reference to the database service
+        const database = firebase.database();
+
+        // Function to update each number from its specific database node
+        function updateNumbers() {
+            // Reference and update for Total Users
+            const usersRef = database.ref('total_users');
+            usersRef.on('value', (snapshot) => {
+                const users = snapshot.val();
+                if (users) {
+                    document.getElementById('total-users').textContent = users.toLocaleString() + '+';
+                }
+            });
+
+            // Reference and update for Total Withdrawals
+            const withdrawalsRef = database.ref('total_withdrawals');
+            withdrawalsRef.on('value', (snapshot) => {
+                const withdrawals = snapshot.val();
+                if (withdrawals) {
+                    document.getElementById('total-withdrawals').textContent = withdrawals.toLocaleString() + '+';
+                }
+            });
+
+            // Reference and update for Total Tasks
+            const tasksRef = database.ref('total_tasks');
+            tasksRef.on('value', (snapshot) => {
+                const tasks = snapshot.val();
+                if (tasks) {
+                    document.getElementById('total-tasks').textContent = tasks.toLocaleString() + '+';
+                }
+            });
+        }
+
+        // Call the function when the page loads
+        document.addEventListener("DOMContentLoaded", updateNumbers);
+    </script>
 </body>
 </html>
