@@ -1,20 +1,70 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>লগইন</title>
+    <title>ExSurvey - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* General Styles */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f7f9;
+            background-color: #2980b9;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             color: #333;
+            flex-direction: column;
         }
+
+        /* Header */
+        .header {
+            width: 100%;
+            padding: 15px 5%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column; /* Changed to column for stacking elements vertically */
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+        .header .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px; /* Adds space between the logo and buttons */
+        }
+        .header .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .header .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+            border: 1px solid #28a745;
+            color: #28a745;
+        }
+        .header .btn-green {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+        }
+        .header .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Container */
         .container {
             background-color: #fff;
             padding: 2.5rem;
@@ -24,6 +74,7 @@
             max-width: 400px;
             box-sizing: border-box;
             text-align: center;
+            margin-top: 100px;
         }
         h2 {
             font-size: 2rem;
@@ -34,6 +85,8 @@
             margin-bottom: 1.5rem;
             color: #7f8c8d;
         }
+        
+        /* Form */
         .form-group {
             margin-bottom: 1rem;
             text-align: left;
@@ -43,6 +96,9 @@
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: #34495e;
+        }
+        .input-group {
+            position: relative;
         }
         input {
             width: 100%;
@@ -56,6 +112,15 @@
             outline: none;
             border-color: #3498db;
         }
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #95a5a6;
+        }
+        
         button {
             width: 100%;
             padding: 0.75rem;
@@ -90,41 +155,145 @@
             color: #c0392b;
             opacity: 1;
         }
-        .link {
+        .forgot-password-link {
             display: block;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
+            text-align: right;
             text-decoration: none;
             color: #3498db;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            padding: 1.5rem 5%;
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .footer p {
+            margin: 0;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .modal-content h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-btn:hover, .close-btn:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
+    <header class="header">
+        <div class="logo">ExSurvey</div>
+        <div class="nav-buttons">
+            <a href="register.html" class="btn">New User Sign Up</a>
+            <a href="index.html" class="btn btn-green">Go to Homepage</a>
+        </div>
+    </header>
+
     <div class="container">
-        <h2>লগইন করুন</h2>
-        <p>আপনার অ্যাকাউন্ট অ্যাক্সেস করতে প্রবেশ করুন।</p>
+        <h2>Login</h2>
+        <p>Access your account to continue.</p>
         
         <form id="login-form">
             <div class="form-group">
-                <label for="email-username">ইমেল / ইউজারনেম</label>
-                <input type="text" id="email-username" placeholder="আপনার ইমেল অথবা ইউজারনেম" required>
+                <label for="email-username">Email / Username</label>
+                <input type="text" id="email-username" placeholder="Your email or username" required>
             </div>
             <div class="form-group">
-                <label for="password">পাসওয়ার্ড</label>
-                <input type="password" id="password" placeholder="আপনার পাসওয়ার্ড" required>
+                <label for="password">Password</label>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Your password" required>
+                    <i class="fas fa-eye password-toggle" id="toggle-password"></i>
+                </div>
             </div>
-            <button type="submit">লগইন</button>
+            <button type="submit">Login</button>
         </form>
-
+        
+        <a href="#" class="forgot-password-link" id="forgot-password-link">Forgot password?</a>
         <div id="status-message" class="status-message"></div>
-
-        <a href="register.html" class="link">নতুন অ্যাকাউন্ট নেই? রেজিস্টার করুন</a>
     </div>
+    
+    <div id="forgot-password-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3>Reset Password</h3>
+        <p>Enter your email to receive a password reset link.</p>
+        <form id="password-reset-form">
+            <div class="form-group">
+                <label for="reset-email">Email</label>
+                <input type="email" id="reset-email" placeholder="Your email" required>
+            </div>
+            <button type="submit">Send Reset Link</button>
+        </form>
+        <div id="reset-status" class="status-message"></div>
+      </div>
+    </div>
+    
+    <footer class="footer">
+        <p class="footer-links">
+            <a href="privacy.html">Privacy Policy</a> |
+            <a href="terms.html">Terms of Service</a> |
+            <a href="https://wa.me/+8801792849799">Contact Us</a>
+        </p>
+        <p>&copy; 2025 ExSurvey. All Rights Reserved.</p>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
+        // Firebase Configuration
         const firebaseConfig = {
           apiKey: "AIzaSyCHV1NpohSUeK8bSH46iVWG-6kVxRsyEYY",
           authDomain: "exsurvey-b53a1.firebaseapp.com",
@@ -138,41 +307,125 @@
         
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const database = getDatabase(app);
 
+        // DOM elements
         const loginForm = document.getElementById('login-form');
         const emailUsernameInput = document.getElementById('email-username');
         const passwordInput = document.getElementById('password');
         const statusMessage = document.getElementById('status-message');
+        const togglePassword = document.getElementById('toggle-password');
+        const forgotPasswordLink = document.getElementById('forgot-password-link');
+        const forgotPasswordModal = document.getElementById('forgot-password-modal');
+        const modalCloseBtn = document.querySelector('.modal .close-btn');
+        const passwordResetForm = document.getElementById('password-reset-form');
+        const resetEmailInput = document.getElementById('reset-email');
+        const resetStatus = document.getElementById('reset-status');
 
-        function showStatusMessage(message, type) {
-            statusMessage.textContent = message;
-            statusMessage.className = `status-message ${type}`;
+        // Function to show/hide status messages
+        function showStatusMessage(message, type, element) {
+            element.textContent = message;
+            element.className = `status-message ${type}`;
+            setTimeout(() => {
+                element.className = 'status-message';
+            }, 5000);
         }
 
+        // Login with email or username
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const emailOrUsername = emailUsernameInput.value.trim();
             const password = passwordInput.value.trim();
 
             if (!emailOrUsername || !password) {
-                showStatusMessage('ইমেল এবং পাসওয়ার্ড উভয়ই প্রয়োজন।', 'error');
+                showStatusMessage('Email and password are required.', 'error', statusMessage);
                 return;
             }
 
             try {
-                await signInWithEmailAndPassword(auth, emailOrUsername, password);
-                showStatusMessage('সফলভাবে লগইন করা হয়েছে!', 'success');
+                // Check if the input is an email or a username
+                let email;
+                if (emailOrUsername.includes('@')) {
+                    email = emailOrUsername;
+                } else {
+                    const snapshot = await get(ref(database, 'users'));
+                    if (snapshot.exists()) {
+                        const users = snapshot.val();
+                        const userFound = Object.values(users).find(user => user.username === emailOrUsername);
+                        if (userFound) {
+                            email = userFound.email;
+                        } else {
+                            throw new Error('User not found');
+                        }
+                    } else {
+                        throw new Error('User not found');
+                    }
+                }
+
+                await signInWithEmailAndPassword(auth, email, password);
+                showStatusMessage('Successfully logged in!', 'success', statusMessage);
                 window.location.href = "dashboard.html";
 
             } catch (error) {
                 console.error("Login failed:", error.code, error.message);
-                let errorMessage = 'লগইন ব্যর্থ হয়েছে।';
+                let errorMessage = 'Login failed. Please check your credentials.';
                 if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'অনুগ্রহ করে একটি সঠিক ইমেল অ্যাড্রেস দিন।';
-                } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                    errorMessage = 'ভুল ইমেল বা পাসওয়ার্ড।';
+                    errorMessage = 'Please provide a valid email address.';
+                } else if (error.code === 'auth/user-not-found' || error.message.includes('User not found')) {
+                    errorMessage = 'Incorrect email/username or password.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Incorrect email/username or password.';
                 }
-                showStatusMessage(errorMessage, 'error');
+                showStatusMessage(errorMessage, 'error', statusMessage);
+            }
+        });
+
+        // Password hide/show functionality
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+
+        // Modal functionality
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            forgotPasswordModal.style.display = 'flex';
+        });
+
+        modalCloseBtn.addEventListener('click', () => {
+            forgotPasswordModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === forgotPasswordModal) {
+                forgotPasswordModal.style.display = 'none';
+            }
+        });
+        
+        // Password reset form
+        passwordResetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = resetEmailInput.value.trim();
+            
+            if (!email) {
+                showStatusMessage('Please enter your email.', 'error', resetStatus);
+                return;
+            }
+
+            try {
+                await sendPasswordResetEmail(auth, email);
+                showStatusMessage('Password reset link sent! Check your inbox, including the spam folder.', 'success', resetStatus);
+            } catch (error) {
+                console.error("Password reset failed:", error.code, error.message);
+                let errorMessage = 'Failed to send reset link.';
+                if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'Invalid email address.';
+                } else if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'This email is not registered.';
+                }
+                showStatusMessage(errorMessage, 'error', resetStatus);
             }
         });
     </script>
