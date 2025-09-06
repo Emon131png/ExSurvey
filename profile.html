@@ -270,6 +270,7 @@
                 
                 onValue(userRef, (snapshot) => {
                     const data = snapshot.val();
+                    // Load data only if it exists
                     if (data) {
                         document.getElementById('username').textContent = data.Username || 'N/A';
                         document.getElementById('fullname').textContent = data.Fullname || 'N/A';
@@ -279,7 +280,14 @@
                         document.getElementById('gender').textContent = data.Gender || 'N/A';
                         document.getElementById('referredBy').textContent = data.ReferredBy || 'N/A';
                     } else {
-                        // Data does not exist. The UI will show N/A as per the HTML.
+                        // If no data is found for the user, show N/A
+                        document.getElementById('username').textContent = 'N/A';
+                        document.getElementById('fullname').textContent = 'N/A';
+                        document.getElementById('country').textContent = 'N/A';
+                        document.getElementById('phone').textContent = 'N/A';
+                        document.getElementById('email').textContent = 'N/A';
+                        document.getElementById('gender').textContent = 'N/A';
+                        document.getElementById('referredBy').textContent = 'N/A';
                         console.log("No profile data found for user:", user.uid);
                     }
                 });
