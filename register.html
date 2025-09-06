@@ -1,29 +1,84 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>রেজিস্টার</title>
+    <title>ExSurvey - Register</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css">
+
     <style>
+        /* General Styles */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f4f7f9;
+            background-color: #2980b9;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             color: #333;
+            flex-direction: column;
         }
+
+        /* Header */
+        .header {
+            width: 100%;
+            padding: 15px 5%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+        .header .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        .header .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .header .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+            border: 1px solid #28a745;
+            color: #28a745;
+        }
+        .header .btn-green {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+        }
+        .header .btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Container */
         .container {
             background-color: #fff;
             padding: 2.5rem;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             box-sizing: border-box;
             text-align: center;
+            margin-top: 150px;
+            margin-bottom: 80px;
         }
         h2 {
             font-size: 2rem;
@@ -34,6 +89,8 @@
             margin-bottom: 1.5rem;
             color: #7f8c8d;
         }
+        
+        /* Form */
         .form-group {
             margin-bottom: 1rem;
             text-align: left;
@@ -44,7 +101,7 @@
             font-weight: 600;
             color: #34495e;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #ddd;
@@ -52,10 +109,57 @@
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #3498db;
         }
+        
+        /* Input with Icon */
+        .input-group {
+            position: relative;
+        }
+        .input-group .fas {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #95a5a6;
+        }
+        
+        /* Validation Feedback */
+        .validation-message {
+            font-size: 0.8rem;
+            color: #c0392b;
+            margin-top: 5px;
+            display: none;
+        }
+        input.invalid {
+            border-color: #c0392b;
+        }
+        input.valid {
+            border-color: #27ae60;
+        }
+        
+        /* Phone Input Styling */
+        .iti {
+            width: 100%;
+        }
+        .iti--separate-dial-code .iti__selected-dial-code {
+            display: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
         button {
             width: 100%;
             padding: 0.75rem;
@@ -67,6 +171,7 @@
             font-weight: 700;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin-top: 1rem;
         }
         button:hover {
             background-color: #2980b9;
@@ -96,49 +201,125 @@
             text-decoration: none;
             color: #3498db;
         }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            padding: 1.5rem 5%;
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .footer p {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
 
+    <header class="header">
+        <div class="logo">ExSurvey</div>
+        <div class="nav-buttons">
+            <a href="login.html" class="btn">Have account? Login</a>
+            <a href="index.html" class="btn btn-green">Go to Homepage</a>
+        </div>
+    </header>
+
     <div class="container">
-        <h2>রেজিস্টার করুন</h2>
-        <p>একটি নতুন অ্যাকাউন্ট তৈরি করুন।</p>
+        <h2>Register</h2>
+        <p>Create a new account.</p>
         
         <form id="register-form">
             <div class="form-group">
-                <label for="username">ইউজারনেম</label>
-                <input type="text" id="username" placeholder="আপনার ইউজারনেম" required>
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Your username" required minlength="5">
+                <span id="username-validation" class="validation-message">Username must be at least 5 characters.</span>
             </div>
             <div class="form-group">
-                <label for="fullname">পুরো নাম</label>
-                <input type="text" id="fullname" placeholder="আপনার পুরো নাম" required>
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" placeholder="Your full name" required minlength="6">
+                <span id="fullname-validation" class="validation-message">Full name must be at least 6 characters.</span>
             </div>
             <div class="form-group">
-                <label for="phone">ফোন নম্বর</label>
-                <input type="tel" id="phone" placeholder="আপনার ফোন নম্বর" required>
+                <label for="country">Country</label>
+                <select id="country" required>
+                    <option value="" disabled selected>Select your Country</option>
+                </select>
             </div>
             <div class="form-group">
-                <label for="email">ইমেল</label>
-                <input type="email" id="email" placeholder="আপনার ইমেল" required>
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" required>
             </div>
             <div class="form-group">
-                <label for="password">পাসওয়ার্ড</label>
-                <input type="password" id="password" placeholder="একটি শক্তিশালী পাসওয়ার্ড দিন" required>
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
             </div>
-            <button type="submit">রেজিস্টার</button>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Your email" required>
+                <span id="email-validation" class="validation-message">Please enter a valid email.</span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Choose a strong password" required minlength="6">
+                    <i class="fas fa-eye password-toggle" id="toggle-password"></i>
+                </div>
+                <span id="password-validation" class="validation-message">Password must be at least 6 characters and contain a letter, number, and symbol.</span>
+            </div>
+            <div class="form-group">
+                <label for="referral">Referral Link</label>
+                <input type="text" id="referral" placeholder="Optional" readonly>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms-agree" required>
+                <label for="terms-agree">I agree to all <a href="#">Terms & Policy</a> and <a href="#">Privacy</a></label>
+            </div>
+            <button type="submit">Register</button>
         </form>
 
         <div id="status-message" class="status-message"></div>
-
-        <a href="login.html" class="link">ইতিমধ্যেই একটি অ্যাকাউন্ট আছে? লগইন করুন</a>
     </div>
+    
+    <footer class="footer">
+        <p class="footer-links">
+            <a href="privacy.html">Privacy Policy</a> |
+            <a href="terms.html">Terms of Service</a> |
+            <a href="https://wa.me/+8801792849799">Contact Us</a>
+        </p>
+        <p>&copy; 2025 ExSurvey. All Rights Reserved.</p>
+    </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+    
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getDatabase, ref, set, get, child, update, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+        
+        // Import countries from the external file
+        import { countries } from "./countries.js";
 
-        // Firebase configuration (আপনার লগইন পেজ থেকে)
+        // Firebase configuration
         const firebaseConfig = {
           apiKey: "AIzaSyCHV1NpohSUeK8bSH46iVWG-6kVxRsyEYY",
           authDomain: "exsurvey-b53a1.firebaseapp.com",
@@ -153,74 +334,219 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getDatabase(app); // Initialize Realtime Database
+        const db = getDatabase(app);
 
         // UI Elements
         const registerForm = document.getElementById('register-form');
         const usernameInput = document.getElementById('username');
         const fullnameInput = document.getElementById('fullname');
+        const countrySelect = document.getElementById('country');
         const phoneInput = document.getElementById('phone');
+        const genderInput = document.getElementById('gender');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
+        const referralInput = document.getElementById('referral');
+        const termsCheckbox = document.getElementById('terms-agree');
         const statusMessage = document.getElementById('status-message');
-
+        const togglePassword = document.getElementById('toggle-password');
+        
         // Function to display messages
         function showStatusMessage(message, type) {
             statusMessage.textContent = message;
             statusMessage.className = `status-message ${type}`;
         }
+        
+        // Populate country dropdown from `countries.js`
+        countries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country.code;
+            option.textContent = country.name;
+            countrySelect.appendChild(option);
+        });
+
+        // Phone Input with `intl-tel-input`
+        const iti = window.intlTelInput(phoneInput, {
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+            separateDialCode: true,
+            initialCountry: "auto",
+            geoIpLookup: callback => {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => {
+                        const countryCode = data.country_code;
+                        if (countryCode && countries.some(c => c.code === countryCode)) {
+                            callback(countryCode);
+                        } else {
+                            callback("us"); // Default to US if country not in list
+                        }
+                    })
+                    .catch(() => callback("us"));
+            }
+        });
+
+        // Sync country dropdown with phone input
+        countrySelect.addEventListener('change', () => {
+            iti.setCountry(countrySelect.value);
+        });
+
+        // Auto-fill referral link from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const referrerUsername = urlParams.get('ref');
+        if (referrerUsername) {
+            referralInput.value = referrerUsername;
+        }
+
+        // Live validation functions
+        function validateField(input, minLength, messageElement) {
+            if (input.value.trim().length < minLength) {
+                input.classList.add('invalid');
+                input.classList.remove('valid');
+                messageElement.style.display = 'block';
+                return false;
+            } else {
+                input.classList.remove('invalid');
+                input.classList.add('valid');
+                messageElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        function validateEmail(input, messageElement) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(input.value)) {
+                input.classList.add('invalid');
+                input.classList.remove('valid');
+                messageElement.style.display = 'block';
+                return false;
+            } else {
+                input.classList.remove('invalid');
+                input.classList.add('valid');
+                messageElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        function validatePassword(input, messageElement) {
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+            if (!passwordRegex.test(input.value)) {
+                input.classList.add('invalid');
+                input.classList.remove('valid');
+                messageElement.style.display = 'block';
+                return false;
+            } else {
+                input.classList.remove('invalid');
+                input.classList.add('valid');
+                messageElement.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Add event listeners for live validation
+        usernameInput.addEventListener('input', () => validateField(usernameInput, 5, document.getElementById('username-validation')));
+        fullnameInput.addEventListener('input', () => validateField(fullnameInput, 6, document.getElementById('fullname-validation')));
+        emailInput.addEventListener('input', () => validateEmail(emailInput, document.getElementById('email-validation')));
+        passwordInput.addEventListener('input', () => validatePassword(passwordInput, document.getElementById('password-validation')));
+
+        // Password hide/show functionality
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
 
         // Handle registration form submission
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = usernameInput.value.trim();
             const fullname = fullnameInput.value.trim();
-            const phone = phoneInput.value.trim();
+            const country = countrySelect.value;
+            const phone = iti.getNumber();
+            const gender = genderInput.value;
             const email = emailInput.value.trim();
             const password = passwordInput.value.trim();
+            const referralCode = referralInput.value.trim();
 
-            if (!username || !fullname || !phone || !email || !password) {
-                showStatusMessage('সবগুলো ফিল্ড পূরণ করা প্রয়োজন।', 'error');
+            if (!validateField(usernameInput, 5, document.getElementById('username-validation')) ||
+                !validateField(fullnameInput, 6, document.getElementById('fullname-validation')) ||
+                !validateEmail(emailInput, document.getElementById('email-validation')) ||
+                !validatePassword(passwordInput, document.getElementById('password-validation'))) {
+                showStatusMessage('Please fix the errors in the form.', 'error');
+                return;
+            }
+
+            if (!termsCheckbox.checked) {
+                showStatusMessage('You must agree to the terms and privacy policy.', 'error');
                 return;
             }
 
             try {
-                // Step 1: Create a user with email and password in Firebase Authentication
+                showStatusMessage('Creating account... Please wait.', 'success');
+
+                // Check if username is already taken
+                const usernameQuery = query(ref(db, 'users'), orderByChild('username'), equalTo(username));
+                const usernameSnapshot = await get(usernameQuery);
+                if (usernameSnapshot.exists()) {
+                    showStatusMessage('This username is already taken.', 'error');
+                    return;
+                }
+
+                // Create user with email and password in Firebase Authentication
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 
-                showStatusMessage('অ্যাকাউন্ট তৈরি হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।', 'success');
+                // Send email verification link
+                await sendEmailVerification(user);
 
-                // Step 2: Save the additional user data to Realtime Database
+                let initialBalance = 0.02;
+                
+                if (referralCode) {
+                    const referrerQuery = query(ref(db, 'users'), orderByChild('username'), equalTo(referralCode));
+                    const referrerSnapshot = await get(referrerQuery);
+                    
+                    if (referrerSnapshot.exists()) {
+                        const referrerData = Object.values(referrerSnapshot.val())[0];
+                        const referrerUid = Object.keys(referrerSnapshot.val())[0];
+                        
+                        initialBalance = 0.03;
+                        const currentReferrerBalance = referrerData.balance || 0;
+                        await update(ref(db, 'users/' + referrerUid), {
+                            balance: currentReferrerBalance + 0.02
+                        });
+                    }
+                }
+                
                 await set(ref(db, 'users/' + user.uid), {
                     username: username,
                     fullname: fullname,
+                    country: country,
                     phone: phone,
-                    email: email, // Optionally save email here as well
-                    uid: user.uid // Save the user's unique ID for future reference
+                    gender: gender,
+                    email: email,
+                    balance: initialBalance,
+                    referral_code: referralCode,
+                    uid: user.uid
                 });
 
-                console.log("User registered and data saved to Realtime Database:", user);
-                showStatusMessage('সফলভাবে রেজিস্টার করা হয়েছে! আপনাকে লগইন পেজে রিডাইরেক্ট করা হচ্ছে।', 'success');
+                showStatusMessage('Successfully registered! Please check your email for a verification link.', 'success');
                 
                 setTimeout(() => {
                     window.location.href = "login.html";
-                }, 2000); // 2 seconds delay before redirecting
+                }, 5000);
 
             } catch (error) {
                 console.error("Registration failed:", error.code, error.message);
-                let errorMessage = 'রেজিস্ট্রেশন ব্যর্থ হয়েছে।';
+                let errorMessage = 'Registration failed.';
                 if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = 'এই ইমেলটি ইতিমধ্যেই ব্যবহার করা হয়েছে।';
+                    errorMessage = 'This email is already in use.';
                 } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'অনুগ্রহ করে একটি সঠিক ইমেল অ্যাড্রেস দিন।';
+                    errorMessage = 'Please provide a valid email address.';
                 } else if (error.code === 'auth/weak-password') {
-                    errorMessage = 'পাসওয়ার্ডটি খুবই দুর্বল। একটি শক্তিশালী পাসওয়ার্ড দিন।';
+                    errorMessage = 'Password is too weak. Please use a stronger one.';
                 }
                 showStatusMessage(errorMessage, 'error');
             }
         });
-
     </script>
 </body>
 </html>
