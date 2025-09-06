@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Referral — ExSurvey</title>
+  <meta name="description" content="ExSurvey referral information page" />
+  <style>
+    :root{
+      --bg:#f7f9fc;
+      --card:#ffffff;
+      --primary:#0b63d8;
+      --muted:#6b7280;
+      --maxw:800px;
+      --radius:12px;
+      font-family: Inter, Arial, sans-serif;
+    }
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#ffffff);
+      color:#111827;
+      line-height:1.6;
+    }
+    .topbar{
+      background:var(--card);
+      box-shadow:0 2px 8px rgba(15,23,42,0.06);
+      padding:12px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      color:inherit;
+    }
+    .logo .mark{
+      width:40px;height:40px;border-radius:8px;
+      background:linear-gradient(135deg,var(--primary),#2fb6ff);
+      display:flex;align-items:center;justify-content:center;
+      color:white;font-weight:700;font-size:18px;
+    }
+    .back-btn{
+      cursor:pointer;
+      font-size:14px;
+      color:var(--primary);
+      background:#eef6ff;
+      padding:6px 12px;
+      border-radius:8px;
+      font-weight:600;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:none;
+    }
+    .container{
+      max-width:var(--maxw);
+      margin:28px auto;
+      padding:22px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:26px;
+      box-shadow:0 6px 24px rgba(15,23,42,0.06);
+      text-align:left;
+    }
+    h1{margin:0 0 12px;font-size:22px}
+    .lead{color:var(--muted);margin-bottom:20px}
+    h2{font-size:16px;margin-top:20px;color:#0f172a}
+    ul{margin:8px 0 8px 20px}
+    .muted{color:var(--muted);font-size:14px}
+    footer.sitefoot{max-width:var(--maxw);margin:20px auto 50px auto;
+      padding:14px 22px;text-align:center;color:var(--muted)}
+    .small{font-size:13px}
+    @media(max-width:520px){
+      .container{margin:12px;padding:16px}
+      .card{padding:18px}
+      h1{font-size:18px}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <!-- Back button -->
+    <button class="back-btn" onclick="window.history.back()" aria-label="Go back">
+      ← Back
+    </button>
+
+    <!-- Logo -->
+    <a href="index.html" class="logo" aria-label="ExSurvey home">
+      <div class="mark">ES</div>
+      <div>
+        <div style="font-weight:700">ExSurvey</div>
+        <div style="font-size:12px;color:var(--muted)">Survey & Feedback Platform</div>
+      </div>
+    </a>
+  </header>
+
+  <main class="container">
+    <article class="card">
+      <h1>Referral Program</h1>
+      <p class="lead">Our referral program rewards you when you invite friends to join ExSurvey.</p>
+
+      <section>
+        <h2>How it works</h2>
+        <ul>
+          <li>You invite your friends to join ExSurvey.</li>
+          <li>When they sign up and start using the platform, you get rewarded.</li>
+          <li>Rewards can include bonus points, credits, or special offers.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Important Notes</h2>
+        <ul>
+          <li>Each referral must be a new and unique user.</li>
+          <li>Rewards will be added to your account automatically.</li>
+          <li>We may update or change the referral program at any time.</li>
+        </ul>
+      </section>
+
+      <p class="muted small" style="margin-top:18px">Last updated: <span id="updated-date"></span></p>
+    </article>
+  </main>
+
+  <footer class="sitefoot">
+    © <span id="year"></span> ExSurvey. All rights reserved.
+  </footer>
+
+  <script>
+    const yearEl = document.getElementById('year');
+    const updatedEl = document.getElementById('updated-date');
+    const now = new Date();
+    yearEl.textContent = now.getFullYear();
+    updatedEl.textContent = now.toLocaleDateString('en-US', {
+      year:'numeric',month:'long',day:'numeric'
+    });
+  </script>
+</body>
+</html>
